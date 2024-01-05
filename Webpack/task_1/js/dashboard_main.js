@@ -1,12 +1,17 @@
 import $ from 'jquery';
 import _ from 'lodash';
 
+console.log('Content of dashboard_main.js:', $('body').html());
+
 let count = 0;
 
 const updateCounter = _.debounce(function () {
     count += 1;
     $('#count').text(`${count} clicks on the button`);
-}, 1000);
+}, 1000, {
+    'leading': true,
+    'trailing': false
+});
 
 $(document).ready(function () {
     // adding paragraphs and button to the body
