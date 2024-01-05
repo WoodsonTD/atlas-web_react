@@ -8,7 +8,6 @@
     "start": "webpack serve --open"
   },
   "dependencies": {
-    "jquery": "^3.7.1",
-    "jsdom": "^23.1.0"
+    "jquery": "^3.7.1"
   }
 }
