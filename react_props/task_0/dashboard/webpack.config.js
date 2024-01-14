@@ -8,14 +8,12 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
     },
     devServer: {
-        static: {
-            directory: path.join(__dirname, 'dist'),
-        },
+        contentBase: './dist',
         hot: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'dist/index.html',
+            template: 'src/index.html',
         }),
     ],
     module: {

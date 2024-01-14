@@ -1,6 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App.js';
+const element = document.getElementById('app');
+element.textContent = 'Hello, Webpack!';
 
-const root = ReactDOM.createRoot(document.getElementById('app'));
-root.render(<App />);
