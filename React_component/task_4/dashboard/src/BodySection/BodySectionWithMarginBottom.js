@@ -1,25 +1,21 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import BodySectionWithMarginBottom from './BodySectionWithMarginBottom';
+import PropTypes from 'prop-types';
+import BodySection from './BodySection';
+import './BodySectionWithMarginBottom.css';
 
-describe('BodySectionWithMarginBottom Component', () => {
-  it('renders correctly with BodySection component and props passed correctly', () => {
-    const props = {
-      title: 'test title',
-      children: <p>test children node</p>,
-    };
+const BodySectionWithMarginBottom = ({ title, children }) => (
+  <div className="bodySectionWithMargin">
+    <BodySection title={title}>{children}</BodySection>
+  </div>
+);
 
-    const wrapper = shallow(<BodySectionWithMarginBottom {...props} />);
+BodySectionWithMarginBottom.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};
 
-    // Check that BodySectionWithMarginBottom has the correct class
-    expect(wrapper.hasClass('bodySectionWithMargin')).toBeTruthy();
+BodySectionWithMarginBottom.defaultProps = {
+  children: null,
+};
 
-    // Check that there is one BodySection component
-    expect(wrapper.find('BodySection')).toHaveLength(1);
-
-    // Check that BodySection component receives props correctly
-    const bodySectionProps = wrapper.find('BodySection').props();
-    expect(bodySectionProps.title).toEqual(props.title);
-    expect(bodySectionProps.children).toEqual(props.children);
-  });
-});
+export default BodySectionWithMarginBottom;

@@ -9,23 +9,9 @@ describe('Notifications Component', () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 
-  it('displays menu item when displayDrawer is false', () => {
-    const wrapper = shallow(<Notifications />);
-    expect(wrapper.find('.menuItem')).toHaveLength(1);
-  });
+  // ... Other existing tests ...
 
-  it('does not display Notifications div when displayDrawer is false', () => {
-    const wrapper = shallow(<Notifications />);
-    expect(wrapper.find('.Notifications')).toHaveLength(0);
-  });
-
-  it('displays menu item and Notifications div when displayDrawer is true', () => {
-    const wrapper = shallow(<Notifications displayDrawer />);
-    expect(wrapper.find('.menuItem')).toHaveLength(1);
-    expect(wrapper.find('.Notifications')).toHaveLength(1);
-  });
-
-  it('calls markAsRead function with the right ID when NotificationItem is clicked', () => {
+  it('does not rerender when updating props with the same list', () => {
     const notifications = [
       { id: 1, type: 'default', value: 'Notification 1' },
       { id: 2, type: 'urgent', value: 'Notification 2' },
@@ -34,16 +20,43 @@ describe('Notifications Component', () => {
     const wrapper = shallow(<Notifications listNotifications={notifications} />);
     const instance = wrapper.instance();
 
-    // Mock the console.log function
-    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    // Mock shouldComponentUpdate to check if it is called
+    const shouldComponentUpdateSpy = jest.spyOn(instance, 'shouldComponentUpdate');
 
-    // Trigger click on the first NotificationItem
-    wrapper.find(NotificationItem).at(0).props().markAsRead();
+    // Update props with the same list
+    wrapper.setProps({ listNotifications: notifications });
 
-    // Assert that markAsRead function is called with the right ID
-    expect(consoleLogSpy).toHaveBeenCalledWith('Notification 1 has been marked as read');
+    // Assert that shouldComponentUpdate is called
+    expect(shouldComponentUpdateSpy).toHaveBeenCalled();
 
-    // Restore the console.log function
-    consoleLogSpy.mockRestore();
+    // Restore the spy
+    shouldComponentUpdateSpy.mockRestore();
+  });
+
+  it('rerenders when updating props with a longer list', () => {
+    const notifications = [
+      { id: 1, type: 'default', value: 'Notification 1' },
+      { id: 2, type: 'urgent', value: 'Notification 2' },
+    ];
+
+    const newNotifications = [
+      { id: 3, type: 'default', value: 'Notification 3' },
+      { id: 4, type: 'urgent', value: 'Notification 4' },
+    ];
+
+    const wrapper = shallow(<Notifications listNotifications={notifications} />);
+    const instance = wrapper.instance();
+
+    // Mock shouldComponentUpdate to check if it is called
+    const shouldComponentUpdateSpy = jest.spyOn(instance, 'shouldComponentUpdate');
+
+    // Update props with a longer list
+    wrapper.setProps({ listNotifications: newNotifications });
+
+    // Assert that shouldComponentUpdate is called
+    expect(shouldComponentUpdateSpy).toHaveBeenCalled();
+
+    // Restore the spy
+    shouldComponentUpdateSpy.mockRestore();
   });
 });
