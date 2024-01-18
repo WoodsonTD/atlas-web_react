@@ -15,4 +15,29 @@ describe('App Component', () => {
     expect(wrapper.find('Login')).toHaveLength(1);
     expect(wrapper.find('Footer')).toHaveLength(1);
   });
+
+  it('calls logOut function on ctrl+h key press', () => {
+    const logOutMock = jest.fn();
+    const wrapper = shallow(<App logOut={logOutMock} />);
+
+    // Simulate ctrl+h key press
+    const event = new KeyboardEvent('keydown', { ctrlKey: true, key: 'h' });
+    document.dispatchEvent(event);
+
+    expect(logOutMock).toHaveBeenCalled();
+  });
+
+  it('removes event listener on unmount', () => {
+    const logOutMock = jest.fn();
+    const wrapper = shallow(<App logOut={logOutMock} />);
+
+    // Simulate unmounting
+    wrapper.unmount();
+
+    // Simulate ctrl+h key press after unmounting, should not call logOut
+    const event = new KeyboardEvent('keydown', { ctrlKey: true, key: 'h' });
+    document.dispatchEvent(event);
+
+    expect(logOutMock).not.toHaveBeenCalled();
+  });
 });
