@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Notifications from './Notifications';
+import NotificationItem from './NotificationItem';
 
 describe('Notifications Component', () => {
   it('renders without crashing', () => {
@@ -22,5 +23,27 @@ describe('Notifications Component', () => {
     const wrapper = shallow(<Notifications displayDrawer />);
     expect(wrapper.find('.menuItem')).toHaveLength(1);
     expect(wrapper.find('.Notifications')).toHaveLength(1);
+  });
+
+  it('calls markAsRead function with the right ID when NotificationItem is clicked', () => {
+    const notifications = [
+      { id: 1, type: 'default', value: 'Notification 1' },
+      { id: 2, type: 'urgent', value: 'Notification 2' },
+    ];
+
+    const wrapper = shallow(<Notifications listNotifications={notifications} />);
+    const instance = wrapper.instance();
+
+    // Mock the console.log function
+    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+
+    // Trigger click on the first NotificationItem
+    wrapper.find(NotificationItem).at(0).props().markAsRead();
+
+    // Assert that markAsRead function is called with the right ID
+    expect(consoleLogSpy).toHaveBeenCalledWith('Notification 1 has been marked as read');
+
+    // Restore the console.log function
+    consoleLogSpy.mockRestore();
   });
 });
