@@ -31,12 +31,14 @@ class App extends Component {
     // Create the listNotifications array
     this.listNotifications = [
       { id: 1, html: { __html: 'Notification 1' }, type: 'default', value: 'Value 1' },
-      // Add more notifications as needed
     ];
 
     // Add lifecycle for keyboard event
     this.handleKeyDown = this.handleKeyDown.bind(this);
-  }
+
+    this.state = {
+      displayDrawer: false,
+    };
 
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
