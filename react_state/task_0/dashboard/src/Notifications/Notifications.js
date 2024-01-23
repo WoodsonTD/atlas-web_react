@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import NotificationItem from './NotificationItem';
 import { StyleSheet, css, keyframes } from 'aphrodite';
 
+// animation
 const fadeIn = keyframes({
     '0%': {
         opacity: 0.5,
@@ -24,6 +25,7 @@ const bounce = keyframes({
     },
 });
 
+// styles
 const styles = StyleSheet.create({
     notifications: {
         border: '1px solid #ccc',
