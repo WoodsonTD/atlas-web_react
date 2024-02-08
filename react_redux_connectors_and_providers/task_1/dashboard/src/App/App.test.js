@@ -17,31 +17,28 @@ describe('App Component', () => {
     expect(wrapper.find('Footer')).toHaveLength(1);
   });
 
-  it('calls logOut function on ctrl+h key press', () => {
-    const logOutMock = jest.fn();
-    const wrapper = shallow(<App logOut={logOutMock} />); // Pass logOut as prop
-
-    // Simulate ctrl+h key press
-    const event = new KeyboardEvent('keydown', { ctrlKey: true, key: 'h' });
-    document.dispatchEvent(event);
-
-    expect(logOutMock).toHaveBeenCalled();
+  it('passes displayDrawer as false to Notifications by default', () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find(Notifications).prop('displayDrawer')).toBe(false);
   });
 
-  it('removes event listener on unmount', () => {
-    const logOutMock = jest.fn();
-    const wrapper = shallow(<App logOut={logOutMock} />); // Pass logOut as prop
-
-    // Simulate unmounting
-    wrapper.unmount();
-
-    // Simulate ctrl+h key press after unmounting, should not call logOut
-    const event = new KeyboardEvent('keydown', { ctrlKey: true, key: 'h' });
-    document.dispatchEvent(event);
-
-    expect(logOutMock).not.toHaveBeenCalled();
+  it('passes the correct props to Notifications after state change', () => {
+    const wrapper = shallow(<App />);
+    wrapper.setProps({ displayDrawer: true });
+    expect(wrapper.find(Notifications).prop('displayDrawer')).toBe(true);
   });
 
-  // Add more test cases as needed based on your specific requirements
+  it('calls displayNotificationDrawer function when displayDrawer is false', () => {
+    const displayNotificationDrawerMock = jest.fn();
+    const wrapper = shallow(<App displayNotificationDrawer={displayNotificationDrawerMock} />);
+    wrapper.setProps({ displayDrawer: false });
+    expect(displayNotificationDrawerMock).toHaveBeenCalled();
+  });
 
+  it('calls hideNotificationDrawer function when displayDrawer is true', () => {
+    const hideNotificationDrawerMock = jest.fn();
+    const wrapper = shallow(<App hideNotificationDrawer={hideNotificationDrawerMock} />);
+    wrapper.setProps({ displayDrawer: true });
+    expect(hideNotificationDrawerMock).toHaveBeenCalled();
+  });
 });

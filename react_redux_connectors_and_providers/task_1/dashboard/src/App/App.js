@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { connect } from 'react-redux'; // Import connect from Redux
+import { connect } from 'react-redux';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
 import Notifications from '../Notifications/Notifications';
-import { AppContext, AppProvider } from './AppContext';
-import { displayNotificationDrawer, hideNotificationDrawer } from '../actions/uiActionCreators'; // Import action creators
+import { AppProvider } from './AppContext';
+import { displayNotificationDrawer, hideNotificationDrawer } from '../actions/uiActionCreators';
 
 const styles = StyleSheet.create({
   body: {},
@@ -21,7 +21,6 @@ const mapStateToProps = (state) => ({
   displayDrawer: state.uiReducer.get('isNotificationDrawerVisible'),
 });
 
-// Connect action creators to the component
 const mapDispatchToProps = {
   displayNotificationDrawer,
   hideNotificationDrawer,
@@ -31,7 +30,7 @@ const App = ({ isLoggedIn, displayDrawer, displayNotificationDrawer, hideNotific
   return (
     <AppProvider>
       <>
-        <Notifications displayDrawer={displayDrawer} /> {/* Pass displayDrawer as prop */}
+        <Notifications displayDrawer={displayDrawer} />
         <div className={css(styles.app, styles.body)}>
           <Header />
           <BodySectionWithMarginBottom title="Course list">
@@ -48,6 +47,18 @@ const App = ({ isLoggedIn, displayDrawer, displayNotificationDrawer, hideNotific
       </>
     </AppProvider>
   );
+};
+
+App.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  displayDrawer: PropTypes.bool.isRequired,
+  displayNotificationDrawer: PropTypes.func.isRequired,
+  hideNotificationDrawer: PropTypes.func.isRequired,
+};
+
+App.defaultProps = {
+  isLoggedIn: false,
+  displayDrawer: false,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
